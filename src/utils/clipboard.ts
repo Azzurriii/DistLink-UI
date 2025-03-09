@@ -1,4 +1,4 @@
-import { ToastType } from "@/context/ToastContext";
+import { ToastType } from "react-hot-toast";
 
 interface CopyToClipboardResult {
   success: boolean;
