@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import QRCode from 'react-qr-code';
 import { FaDownload, FaTimes } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 interface QRCodeModalProps {
   url: string;
@@ -20,25 +21,30 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
     const svg = document.getElementById('qr-code');
     if (!svg) return;
     
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx?.drawImage(img, 0, 0);
-      const pngFile = canvas.toDataURL('image/png');
+    try {
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
       
-      // Download the PNG file
-      const downloadLink = document.createElement('a');
-      downloadLink.download = `qrcode-${shortUrl.split('/').pop()}.png`;
-      downloadLink.href = pngFile;
-      downloadLink.click();
-    };
-    
-    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx?.drawImage(img, 0, 0);
+        const pngFile = canvas.toDataURL('image/png');
+        
+        // Download the PNG file
+        const downloadLink = document.createElement('a');
+        downloadLink.download = `qrcode-${shortUrl.split('/').pop()}.png`;
+        downloadLink.href = pngFile;
+        downloadLink.click();
+        toast.success('QR Code downloaded successfully!');
+      };
+      
+      img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    } catch (error) {
+      toast.error('Failed to download QR Code');
+    }
   };
 
   return (
@@ -79,11 +85,11 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-800 p-4 sm:p-6 text-left align-middle shadow-xl transition-all">
                   <div className="flex justify-between items-center mb-4">
                     <Dialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-white"
+                      className="text-base sm:text-lg font-medium leading-6 text-white"
                     >
                       QR Code for {shortUrl}
                     </Dialog.Title>
@@ -107,14 +113,14 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
                   </div>
                   
                   <div className="mt-4">
-                    <p className="text-sm text-gray-300 mb-2">
-                      Original URL: <span className="text-blue-400">{url}</span>
+                    <p className="text-xs sm:text-sm text-gray-300 mb-2">
+                      Original URL: <span className="text-blue-400 break-all">{url}</span>
                     </p>
-                    <p className="text-sm text-gray-300 mb-4">
+                    <p className="text-xs sm:text-sm text-gray-300 mb-4">
                       Short URL: <span className="text-blue-400">{shortUrl}</span>
                     </p>
                     
-                    <div className="flex justify-between">
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

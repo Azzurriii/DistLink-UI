@@ -1,12 +1,29 @@
+"use client";
+
+import toast from 'react-hot-toast';
+
 export default function LinkShortener() {
+  const handleShorten = () => {
+    toast.loading('Shortening your link...', { duration: 1000 });
+    setTimeout(() => {
+      toast.success('Link shortened successfully!');
+    }, 1000);
+  };
+
+  const handleRegister = () => {
+    toast('Registration feature is coming soon!');
+  };
+
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-16 mb-12">
-      <h1 className="text-5xl font-bold mb-4 text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-        Shorten Your Loooong Links :)
+    <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-8 sm:mt-16 mb-8 sm:mb-12 px-4 sm:px-0">
+      <h1 className="text-3xl sm:text-5xl font-bold mb-4 text-center whitespace-nowrap overflow-visible">
+        <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+          Shorten Your Loooong Links :)
+        </span>
       </h1>
       
-      <p className="text-center text-gray-400 mb-8">
-        DistLink is a distribution, scaling, and shortening service for your links.
+      <p className="text-center text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">
+        DistLink is an efficient and easy-to-use URL shortening service that streamlines your online experience.
       </p>
       
       <div className="w-full relative">
@@ -18,21 +35,21 @@ export default function LinkShortener() {
             <input 
               type="text" 
               placeholder="Enter the link here" 
-              className="bg-transparent w-full py-3 focus:outline-none text-white"
+              className="bg-transparent w-full py-3 focus:outline-none text-white text-sm sm:text-base"
             />
           </div>
-          <button className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-full transition">
-            Shorten It!
+          <button 
+            className="bg-blue-600 hover:bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full transition text-sm sm:text-base"
+            onClick={handleShorten}
+          >
+            <span className="hidden sm:inline">Shorten It!</span>
+            <span className="sm:hidden">→</span>
           </button>
         </div>
         
-        <div className="flex items-center mt-3 text-sm text-gray-500 justify-between">
-          <div className="flex items-center">
-            <input type="checkbox" id="autoPaste" className="mr-2" />
-            <label htmlFor="autoPaste">Auto Paste from Clipboard</label>
-          </div>
-          <div>
-            You can create <span className="text-blue-500">05</span> more links. <span className="text-blue-500 hover:text-blue-400 cursor-pointer">Register Now</span> to enjoy Unlimited usage
+        <div className="flex flex-col sm:flex-row sm:items-center mt-3 text-xs sm:text-sm text-gray-500 sm:justify-between gap-2 sm:gap-0">
+          <div className="text-center sm:text-right">
+            You can create <span className="text-pink-500">05</span> more links. <span className="text-pink-500 hover:text-pink-400 cursor-pointer" onClick={handleRegister}>Register Now</span> to enjoy Unlimited usage
           </div>
         </div>
       </div>
