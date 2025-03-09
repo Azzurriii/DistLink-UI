@@ -1,56 +1,103 @@
 "use client";
 
-import { detectPlatform, getPlatformColor } from '@/utils/urlUtils';
-import { 
-  FaYoutube, 
-  FaTwitter, 
-  FaVimeo, 
-  FaInstagram, 
-  FaFacebook, 
-  FaLinkedin, 
-  FaGithub, 
-  FaTiktok, 
-  FaGlobe 
-} from 'react-icons/fa';
-import { SiUnsplash } from 'react-icons/si';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faYoutube,
+  faTwitter,
+  faVimeo,
+  faInstagram,
+  faFacebook,
+  faLinkedin,
+  faGithub,
+  faTiktok,
+  faUnsplash,
+  faDiscord,
+  faTwitch,
+  faPinterest,
+  faReddit,
+  faSnapchat,
+  faSpotify,
+  faSteam,
+  faTelegram,
+  faTumblr,
+  faWhatsapp,
+  faWikipediaW,
+  faGoogle,
+} from "@fortawesome/free-brands-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { detectPlatform, getPlatformColor } from "@/utils/urlUtils";
 
 interface PlatformIconProps {
   url: string;
-  className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function PlatformIcon({ url, className = '' }: PlatformIconProps) {
+export default function PlatformIcon({ url, size = "md" }: PlatformIconProps) {
   const platform = detectPlatform(url);
-  const bgColor = getPlatformColor(platform);
-  
+  const bgColorClass = getPlatformColor(platform);
+
+  // Size classes
+  const sizeClasses = {
+    sm: "w-6 h-6 text-xs",
+    md: "w-8 h-8 text-sm",
+    lg: "w-10 h-10 text-base",
+  };
+
+  // Get the appropriate icon
+  const getIcon = () => {
+    switch (platform) {
+      case "youtube":
+        return faYoutube;
+      case "twitter":
+        return faTwitter;
+      case "vimeo":
+        return faVimeo;
+      case "instagram":
+        return faInstagram;
+      case "facebook":
+        return faFacebook;
+      case "linkedin":
+        return faLinkedin;
+      case "github":
+        return faGithub;
+      case "tiktok":
+        return faTiktok;
+      case "unsplash":
+        return faUnsplash || faGlobe; // Fallback if not available
+      case "discord":
+        return faDiscord;
+      case "twitch":
+        return faTwitch;
+      case "pinterest":
+        return faPinterest;
+      case "reddit":
+        return faReddit;
+      case "snapchat":
+        return faSnapchat;
+      case "spotify":
+        return faSpotify;
+      case "steam":
+        return faSteam;
+      case "telegram":
+        return faTelegram;
+      case "tumblr":
+        return faTumblr;
+      case "whatsapp":
+        return faWhatsapp;
+      case "wikipedia":
+        return faWikipediaW || faGlobe; // Fallback if not available
+      case "google":
+        return faGoogle;
+      default:
+        return faGlobe;
+    }
+  };
+
   return (
-    <div className={`w-6 h-6 rounded-full flex items-center justify-center ${bgColor} ${className}`}>
-      {renderIcon(platform)}
+    <div
+      className={`${sizeClasses[size]} ${bgColorClass} rounded-full flex items-center justify-center text-white`}
+    >
+      <FontAwesomeIcon icon={getIcon()} />
     </div>
   );
 }
-
-function renderIcon(platform: ReturnType<typeof detectPlatform>) {
-  switch (platform) {
-    case 'youtube':
-      return <FaYoutube className="w-3 h-3 text-white" />;
-    case 'twitter':
-      return <FaTwitter className="w-3 h-3 text-white" />;
-    case 'vimeo':
-      return <FaVimeo className="w-3 h-3 text-white" />;
-    case 'instagram':
-      return <FaInstagram className="w-3 h-3 text-white" />;
-    case 'facebook':
-      return <FaFacebook className="w-3 h-3 text-white" />;
-    case 'linkedin':
-      return <FaLinkedin className="w-3 h-3 text-white" />;
-    case 'github':
-      return <FaGithub className="w-3 h-3 text-white" />;
-    case 'tiktok':
-      return <FaTiktok className="w-3 h-3 text-white" />;
-    case 'unsplash':
-      return <SiUnsplash className="w-3 h-3 text-white" />;
-    default:
-      return <FaGlobe className="w-3 h-3 text-white" />;
-  }
-} 

@@ -1,10 +1,10 @@
 "use client";
 
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import QRCode from 'react-qr-code';
-import { FaDownload, FaTimes } from 'react-icons/fa';
-import toast from 'react-hot-toast';
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import QRCode from "react-qr-code";
+import { FaDownload, FaTimes } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 interface QRCodeModalProps {
   url: string;
@@ -18,38 +18,38 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
   const closeModal = () => setIsOpen(false);
 
   const downloadQRCode = () => {
-    const svg = document.getElementById('qr-code');
+    const svg = document.getElementById("qr-code");
     if (!svg) return;
-    
+
     try {
       const svgData = new XMLSerializer().serializeToString(svg);
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       const img = new Image();
-      
+
       img.onload = () => {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx?.drawImage(img, 0, 0);
-        const pngFile = canvas.toDataURL('image/png');
-        
+        const pngFile = canvas.toDataURL("image/png");
+
         // Download the PNG file
-        const downloadLink = document.createElement('a');
-        downloadLink.download = `qrcode-${shortUrl.split('/').pop()}.png`;
+        const downloadLink = document.createElement("a");
+        downloadLink.download = `qrcode-${shortUrl.split("/").pop()}.png`;
         downloadLink.href = pngFile;
         downloadLink.click();
-        toast.success('QR Code downloaded successfully!');
+        toast.success("QR Code downloaded successfully!");
       };
-      
-      img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+
+      img.src = "data:image/svg+xml;base64," + btoa(svgData);
     } catch (error) {
-      toast.error('Failed to download QR Code');
+      toast.error("Failed to download QR Code");
     }
   };
 
   return (
     <>
-      <div 
+      <div
         className="w-10 h-10 bg-white p-1 rounded cursor-pointer hover:shadow-lg transition-shadow duration-300"
         onClick={openModal}
       >
@@ -101,25 +101,31 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
                       <FaTimes className="h-5 w-5" />
                     </button>
                   </div>
-                  
+
                   <div className="bg-white p-4 rounded-lg flex justify-center">
                     <QRCode
                       id="qr-code"
                       value={url}
                       size={200}
                       level="H"
-                      style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                      style={{
+                        height: "auto",
+                        maxWidth: "100%",
+                        width: "100%",
+                      }}
                     />
                   </div>
-                  
+
                   <div className="mt-4">
                     <p className="text-xs sm:text-sm text-gray-300 mb-2">
-                      Original URL: <span className="text-blue-400 break-all">{url}</span>
+                      Original URL:{" "}
+                      <span className="text-blue-400 break-all">{url}</span>
                     </p>
                     <p className="text-xs sm:text-sm text-gray-300 mb-4">
-                      Short URL: <span className="text-blue-400">{shortUrl}</span>
+                      Short URL:{" "}
+                      <span className="text-blue-400">{shortUrl}</span>
                     </p>
-                    
+
                     <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                       <button
                         type="button"
@@ -129,7 +135,7 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
                         <FaDownload className="mr-2 h-4 w-4" />
                         Download QR Code
                       </button>
-                      
+
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
@@ -147,4 +153,4 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
       </Transition>
     </>
   );
-} 
+}

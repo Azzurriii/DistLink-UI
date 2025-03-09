@@ -1,7 +1,7 @@
-import Header from '../components/Header';
-import LinkShortener from '../components/LinkShortener';
-import LinksTable from '../components/LinksTable';
-import ShortenButton from '../components/ShortenButton';
+import Header from "../components/Header";
+import LinkShortener from "../components/LinkShortener";
+import LinksTable from "../components/LinksTable";
+import ShortenButton from "../components/ShortenButton";
 
 export default function Home() {
   return (

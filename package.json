@@ -8,9 +8,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:css": "npx tailwindcss -i ./src/app/globals.css -o ./src/app/output.css --watch"
+    "build:css": "npx tailwindcss -i ./src/app/globals.css -o ./src/app/output.css --watch",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.2.0",
     "next": "15.2.1",
     "react": "^19.0.0",

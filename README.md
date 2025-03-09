@@ -12,6 +12,7 @@ Backend: [DistLink Backend](https://github.com/Azzurriii/DistLink)
 - Toasts: react-hot-toast
 
 ---
+
 _Created with the help of AI :)_
 
 ---

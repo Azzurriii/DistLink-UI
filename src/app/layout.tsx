@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "./tailwind.css";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "DistLink - Distributed URL Shortener",
   description: "Shorten your long links efficiently",
   icons: {
-    icon: './app/favicon.ico',
+    icon: "./app/favicon.ico",
   },
 };
 
@@ -23,23 +23,23 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {children}
-        <Toaster 
+        <Toaster
           position="top-right"
           toastOptions={{
             style: {
-              background: '#1e293b',
-              color: '#fff',
+              background: "#1e293b",
+              color: "#fff",
             },
             success: {
               iconTheme: {
-                primary: '#10b981',
-                secondary: '#fff',
+                primary: "#10b981",
+                secondary: "#fff",
               },
             },
             error: {
               iconTheme: {
-                primary: '#ef4444',
-                secondary: '#fff',
+                primary: "#ef4444",
+                secondary: "#fff",
               },
             },
           }}
