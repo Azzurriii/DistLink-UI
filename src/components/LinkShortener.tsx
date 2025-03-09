@@ -17,7 +17,7 @@ export default function LinkShortener() {
   return (
     <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-8 sm:mt-16 mb-8 sm:mb-12 px-4 sm:px-0">
       <h1 className="text-3xl sm:text-5xl font-bold mb-4 text-center whitespace-nowrap overflow-visible">
-        <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent font-semibold">
           Shorten Your Loooong Links :)
         </span>
       </h1>

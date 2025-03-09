@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PlatformIcon from './PlatformIcon';
 import QRCodeModal from './QRCodeModal';
 import { FaCopy, FaChevronDown, FaChevronUp } from 'react-icons/fa';
@@ -10,6 +10,14 @@ import { useMediaQuery } from '../hooks/useMediaQuery';
 export default function LinksTable() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  // Prevent render mobile view
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   const toggleRow = (index: number) => {
     setExpandedRow(expandedRow === index ? null : index);
