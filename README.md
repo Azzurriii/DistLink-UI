@@ -1,3 +1,21 @@
+## DistLink UI
+
+Frontend application for DistLink, built with Next.js and styled using Tailwind CSS.
+
+Backend: [DistLink Backend](https://github.com/Azzurriii/DistLink)
+
+### Tech Stack
+
+Framework: Next.js
+Styling: Tailwind CSS
+Icons: React Icons
+Toasts: react-hot-toast
+
+---
+_Created with the help of AI :)_
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
