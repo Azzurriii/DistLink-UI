@@ -6,10 +6,10 @@ Backend: [DistLink Backend](https://github.com/Azzurriii/DistLink)
 
 ### Tech Stack
 
-Framework: Next.js
-Styling: Tailwind CSS
-Icons: React Icons
-Toasts: react-hot-toast
+- Framework: Next.js
+- Styling: Tailwind CSS
+- Icons: React Icons
+- Toasts: react-hot-toast
 
 ---
 _Created with the help of AI :)_
