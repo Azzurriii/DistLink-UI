@@ -39,7 +39,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-tl from-rose-200 to-indigo-900">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[url('/images/background.jpg')] bg-no-repeat bg-cover bg-center">
       <div className="w-full max-w-md z-10">
         <div className="text-center mb-8">
           <Link href="/">
