@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import GlassCard from "@/components/GlassCard";
-
+import Image from "next/image";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +39,14 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[url('/images/background.jpg')] bg-no-repeat bg-cover bg-center">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+      <Image
+        src="/images/background.jpg"
+        alt="Background"
+        fill
+        priority={true}
+        className="object-cover z-0"
+      />
       <div className="w-full max-w-md z-10">
         <div className="text-center mb-8">
           <Link href="/">
