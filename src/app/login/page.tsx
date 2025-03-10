@@ -7,12 +7,15 @@ import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
 import GlassCard from "@/components/GlassCard";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,10 +28,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // For demo purposes, just show success and redirect
+      await login(email, password);
       toast.success("Login successful!");
       router.push("/");
     } catch (error) {

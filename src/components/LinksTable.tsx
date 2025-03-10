@@ -89,7 +89,6 @@ export default function LinksTable() {
   return (
     <div className="w-full mb-10">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Shorten Links</h2>
         <button
           className="text-blue-500 text-sm hover:text-blue-400"
           onClick={() => toast("History feature is coming soon!")}
