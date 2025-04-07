@@ -1,33 +1,104 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import {
+  shortenUrl,
+  storeUrlInLocalStorage,
+  getGuestLinksCreatedCount,
+  incrementGuestLinksCreatedCount,
+} from "@/services/api";
 
 // In a real app, you would use a context or state management solution
 // For this example, we'll use a prop to determine login state
 interface LinkShortenerProps {
   isLoggedIn?: boolean;
+  onLinkShortened: () => void; // Callback function when a link is shortened
 }
+
+const MAX_LINKS_GUEST = 5;
 
 export default function LinkShortener({
   isLoggedIn = false,
+  onLinkShortened,
 }: LinkShortenerProps) {
   const [url, setUrl] = useState("");
   const [isAutoPaste, setIsAutoPaste] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [remainingCreations, setRemainingCreations] = useState(MAX_LINKS_GUEST);
   const router = useRouter();
 
-  const handleShorten = () => {
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const createdCount = getGuestLinksCreatedCount();
+      setRemainingCreations(Math.max(0, MAX_LINKS_GUEST - createdCount));
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isAutoPaste) {
+      const readClipboard = async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text && text.startsWith("http")) {
+            setUrl(text);
+          }
+        } catch (error) {
+          console.error("Failed to read clipboard:", error);
+        }
+      };
+
+      readClipboard();
+    }
+  }, [isAutoPaste]);
+
+  const handleShorten = async () => {
     if (!url) {
       toast.error("Please enter a URL");
       return;
     }
 
-    toast.loading("Shortening your link...", { duration: 1000 });
-    setTimeout(() => {
-      toast.success("Link shortened successfully!");
-    }, 1000);
+    if (!url.startsWith("http")) {
+      toast.error("Please enter a valid URL starting with http:// or https://");
+      return;
+    }
+
+    if (!isLoggedIn) {
+      const createdCount = getGuestLinksCreatedCount();
+      if (createdCount >= MAX_LINKS_GUEST) {
+        toast.error(
+          `You have reached the guest limit of ${MAX_LINKS_GUEST} link creations. Register to enjoy unlimited usage.`,
+          { duration: 4000 }
+        );
+        return;
+      }
+    }
+
+    setIsLoading(true);
+    const toastId = toast.loading("Shortening your link...");
+
+    try {
+      const response = await shortenUrl({
+        originalUrl: url,
+        expiration: "7D",
+      });
+
+      if (!isLoggedIn) {
+        storeUrlInLocalStorage(response);
+        incrementGuestLinksCreatedCount();
+        setRemainingCreations((prev) => Math.max(0, prev - 1));
+      }
+
+      toast.success("Link shortened successfully!", { id: toastId });
+      setUrl("");
+      onLinkShortened();
+    } catch (error) {
+      console.error("Shortening failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -69,10 +140,17 @@ export default function LinkShortener({
             />
           </div>
           <button
-            className="bg-blue-600 hover:bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full transition text-sm sm:text-base"
+            className={`${
+              isLoading
+                ? "bg-blue-800 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-500"
+            } text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full transition text-sm sm:text-base`}
             onClick={handleShorten}
+            disabled={isLoading}
           >
-            <span className="hidden sm:inline">Shorten Now!</span>
+            <span className="hidden sm:inline">
+              {isLoading ? "Shortening..." : "Shorten Now!"}
+            </span>
             <span className="sm:hidden">→</span>
           </button>
         </div>
@@ -104,8 +182,11 @@ export default function LinkShortener({
             </div>
           ) : (
             <div className="text-center sm:text-right">
-              You can create <span className="text-pink-500">05</span> more
-              links.{" "}
+              You have{" "}
+              <span className="text-pink-500">{remainingCreations}</span> link
+              {remainingCreations !== 1
+                ? " creations"
+                : " creation"} remaining.{" "}
               <span
                 className="text-pink-500 hover:text-pink-400 cursor-pointer"
                 onClick={() => router.push("/signup")}

@@ -1,13 +1,17 @@
 "use client";
 
-import toast from "react-hot-toast";
+import { useEffect, useRef } from "react";
 
 export default function ShortenButton() {
   const handleShorten = () => {
-    toast.loading("Processing your request...", { duration: 1000 });
-    setTimeout(() => {
-      toast.success("Link shortened successfully!");
-    }, 1000);
+    // Scroll to the input field
+    const shortenerInput = document.querySelector(".bg-gray-800 input");
+    if (shortenerInput) {
+      shortenerInput.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        (shortenerInput as HTMLInputElement).focus();
+      }, 500);
+    }
   };
 
   return (
