@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "build:css": "npx tailwindcss -i ./src/app/globals.css -o ./src/app/output.css --watch",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
@@ -24,12 +25,17 @@
     "react-qr-code": "^2.0.15"
   },
   "devDependencies": {
+    "@eslint/js": "^9.24.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.16",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.29.0"
   }
 }

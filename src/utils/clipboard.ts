@@ -7,7 +7,7 @@ interface CopyToClipboardResult {
 }
 
 export const copyToClipboard = async (
-  text: string,
+  text: string
 ): Promise<CopyToClipboardResult> => {
   try {
     if (navigator.clipboard) {
@@ -37,6 +37,7 @@ export const copyToClipboard = async (
             message: "Copied to clipboard!",
           };
         } else {
+          console.error("execCommand copy failed (fallback method)");
           return {
             success: false,
             toastType: "error",
@@ -44,6 +45,7 @@ export const copyToClipboard = async (
           };
         }
       } catch (err) {
+        console.error("Error during execCommand copy (fallback):", err);
         document.body.removeChild(textArea);
         return {
           success: false,
@@ -53,6 +55,7 @@ export const copyToClipboard = async (
       }
     }
   } catch (err) {
+    console.error("Error during clipboard operation:", err);
     return {
       success: false,
       toastType: "error",

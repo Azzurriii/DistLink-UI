@@ -47,7 +47,8 @@ export default function LinksTable({ links, onLinksUpdated }: LinksTableProps) {
     try {
       await navigator.clipboard.writeText(text);
       toast.success("Copied to clipboard!", { id: toastId });
-    } catch (error) {
+    } catch (copyError) {
+      console.error("Failed to copy text:", copyError);
       toast.error("Failed to copy text", { id: toastId });
     }
   };

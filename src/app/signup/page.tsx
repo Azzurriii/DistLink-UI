@@ -45,6 +45,7 @@ export default function SignUp() {
       toast.success("Account created successfully!");
       router.push("/login");
     } catch (error) {
+      console.error("Registration error:", error);
       toast.error("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);

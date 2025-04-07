@@ -33,20 +33,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string) => {
     // Simulate API call
+    console.log("Attempting login for:", email);
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    // In a real app, you would validate credentials with your backend
-    // For demo, we'll just set logged in state
     const username = email.split("@")[0];
     setIsLoggedIn(true);
     setUsername(username);
 
-    // Store auth state in localStorage
     localStorage.setItem(
       "auth",
-      JSON.stringify({ isLoggedIn: true, username }),
+      JSON.stringify({ isLoggedIn: true, username })
     );
   };
 

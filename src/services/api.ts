@@ -26,28 +26,49 @@ const GUEST_CREATED_COUNT_KEY = "guestLinksCreatedCount";
 export const shortenUrl = async (
   params: CreateUrlParams
 ): Promise<ShortUrlResponse> => {
+  let response: Response;
   try {
-    const response = await fetch(`${BASE_URL}/urls`, {
+    response = await fetch(`${BASE_URL}/urls`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(params),
     });
+  } catch (networkError) {
+    console.error("Network error fetching URL:", networkError);
+    const message = "Network error. Please check your connection.";
+    toast.error(message);
+    throw new Error(message);
+  }
 
-    if (!response.ok) {
-      const errorData = await response
-        .json()
-        .catch(() => ({ message: "Failed to shorten URL" }));
-      console.error("API Error:", errorData);
-      throw new Error(errorData.message || "Failed to shorten URL");
+  // Check if response status indicates failure
+  if (!response.ok) {
+    let errorMessage = `Request failed with status ${response.status}`;
+    try {
+      // Try to parse the error response body for a specific message
+      const errorData = await response.json();
+      console.error("API Error Response Body:", errorData); // Log for debugging
+      // Use the server's message if available
+      if (errorData && typeof errorData.message === "string") {
+        errorMessage = errorData.message;
+      }
+    } catch (parsingError) {
+      console.error("Failed to parse error response JSON:", parsingError);
     }
 
-    return await response.json();
-  } catch (error) {
-    console.error("Error shortening URL:", error);
-    toast.error(error instanceof Error ? error.message : String(error));
-    throw error;
+    toast.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+
+  try {
+    const successData = await response.json();
+    return successData;
+  } catch (parsingError) {
+    console.error("Failed to parse success response JSON:", parsingError);
+    const message = "Received an invalid response from the server.";
+    toast.error(message);
+    throw new Error(message);
   }
 };
 

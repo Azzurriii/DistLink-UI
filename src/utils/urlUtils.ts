@@ -71,14 +71,13 @@ export const detectPlatform = (url: string): SupportedPlatform => {
       return "whatsapp";
     } else if (hostname.includes("wikipedia.org")) {
       return "wikipedia";
-    } else if (hostname.includes("github.com")) {
-      return "github";
     } else if (hostname.includes("google.com")) {
       return "google";
     } else {
       return "default";
     }
   } catch (error) {
+    console.error(`Error parsing URL in detectPlatform: ${url}`, error);
     return "default";
   }
 };

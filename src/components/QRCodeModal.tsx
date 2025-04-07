@@ -43,6 +43,8 @@ export default function QRCodeModal({ url, shortUrl }: QRCodeModalProps) {
 
       img.src = "data:image/svg+xml;base64," + btoa(svgData);
     } catch (error) {
+      // Log the specific error
+      console.error("Error downloading QR Code:", error);
       toast.error("Failed to download QR Code");
     }
   };

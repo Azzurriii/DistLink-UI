@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+// import Link from "next/link"; // REMOVED - Unused import
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import {
@@ -11,8 +11,6 @@ import {
   incrementGuestLinksCreatedCount,
 } from "@/services/api";
 
-// In a real app, you would use a context or state management solution
-// For this example, we'll use a prop to determine login state
 interface LinkShortenerProps {
   isLoggedIn?: boolean;
   onLinkShortened: () => void; // Callback function when a link is shortened
@@ -77,9 +75,11 @@ export default function LinkShortener({
     }
 
     setIsLoading(true);
-    const toastId = toast.loading("Shortening your link...");
+    let toastId: string | undefined;
 
     try {
+      toastId = toast.loading("Shortening your link...");
+
       const response = await shortenUrl({
         originalUrl: url,
         expiration: "7D",
@@ -95,7 +95,11 @@ export default function LinkShortener({
       setUrl("");
       onLinkShortened();
     } catch (error) {
-      console.error("Shortening failed:", error);
+      console.error("Shortening failed in LinkShortener component:", error);
+
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
     } finally {
       setIsLoading(false);
     }

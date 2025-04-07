@@ -18,10 +18,6 @@ export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleNotImplemented = (feature: string) => {
-    toast(`${feature} feature is coming soon!`);
-  };
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -59,7 +55,9 @@ export default function Header() {
               <div className="flex items-center">
                 <span className="font-medium">{username}</span>
                 <svg
-                  className={`w-4 h-4 ml-1 text-gray-400 transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 ml-1 text-gray-400 transition-transform ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
