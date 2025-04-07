@@ -179,7 +179,7 @@ export default function LinksTable({ links, onLinksUpdated }: LinksTableProps) {
           {/* Desktop View */}
           {isDesktop && (
             <div className="w-full overflow-x-auto">
-              <table className="w-full text-left align-middle">
+              <table className="w-full text-left align-middle min-w-[700px]">
                 <thead>
                   <tr className="border-b border-gray-700">
                     <th className="py-3 px-4 text-gray-400 font-medium">
@@ -188,7 +188,7 @@ export default function LinksTable({ links, onLinksUpdated }: LinksTableProps) {
                     <th className="py-3 px-4 text-gray-400 font-medium">
                       Original Link
                     </th>
-                    <th className="py-3 px-4 text-gray-400 font-medium text-center">
+                    <th className="py-3 px-4 text-gray-400 font-medium text-center hidden md:table-cell">
                       QR Code
                     </th>
                     <th className="py-3 px-4 text-gray-400 font-medium text-center">
@@ -207,7 +207,7 @@ export default function LinksTable({ links, onLinksUpdated }: LinksTableProps) {
                     <tr key={link.id} className="border-b border-gray-800">
                       <td className="py-4 px-4 align-middle">
                         <div className="flex items-center">
-                          <span className="text-gray-300 flex-grow truncate max-w-[200px]">
+                          <span className="text-gray-300 flex-grow truncate max-w-[150px] md:max-w-[200px]">
                             {link.shortLink}
                           </span>
                           <button
@@ -222,7 +222,7 @@ export default function LinksTable({ links, onLinksUpdated }: LinksTableProps) {
                       <td className="py-4 px-4 align-middle">
                         <div className="flex items-center">
                           <PlatformIcon url={link.originalLink} size="sm" />
-                          <span className="text-gray-300 truncate max-w-xs ml-2 flex-grow">
+                          <span className="text-gray-300 truncate max-w-[200px] md:max-w-xs ml-2 flex-grow">
                             {link.originalLink}
                           </span>
                           <button
@@ -234,7 +234,7 @@ export default function LinksTable({ links, onLinksUpdated }: LinksTableProps) {
                           </button>
                         </div>
                       </td>
-                      <td className="py-4 px-4 text-center align-middle">
+                      <td className="py-4 px-4 text-center align-middle hidden md:table-cell">
                         <QRCodeModal
                           url={link.originalLink}
                           shortUrl={link.shortLink}

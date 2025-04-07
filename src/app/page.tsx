@@ -5,10 +5,9 @@ import { useAuth } from "@/context/AuthContext";
 import Header from "../components/Header";
 import LinkShortener from "../components/LinkShortener";
 import LinksTable from "../components/LinksTable";
-import ShortenButton from "../components/ShortenButton";
 import NavigationTabs from "../components/NavigationTabs";
 import TableActions from "../components/TableActions";
-import { getUrlsFromLocalStorage } from "@/services/api";
+import { getUrlsFromLocalStorage, StoredUrl } from "@/services/api";
 
 interface LinkItem {
   id: string;
@@ -27,16 +26,26 @@ export default function Home() {
     loadLinks();
   }, []);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const month = date.toLocaleString("default", { month: "short" });
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return `${month} - ${day} - ${year}`;
+  const formatDate = (dateString: string): string => {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return "Invalid Date";
+      }
+      const month = date.toLocaleString("default", { month: "short" });
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month} - ${day} - ${year}`;
+    } catch (error) {
+      console.error("Error formatting date:", dateString, error);
+      return "Error Date";
+    }
   };
 
   const loadLinks = () => {
-    const localLinks = getUrlsFromLocalStorage().map((item) => ({
+    const localStoredLinks: StoredUrl[] = getUrlsFromLocalStorage();
+
+    const formattedLinks: LinkItem[] = localStoredLinks.map((item) => ({
       id: item.id,
       shortLink: item.newUrl,
       originalLink: item.originalUrl,
@@ -44,7 +53,7 @@ export default function Home() {
       status: new Date(item.expiresAt) > new Date() ? "Active" : "Expired",
       date: formatDate(item.createdAt),
     }));
-    setLinks(localLinks);
+    setLinks(formattedLinks);
   };
 
   const handleLinksUpdated = () => {
@@ -59,8 +68,6 @@ export default function Home() {
           isLoggedIn={isLoggedIn}
           onLinkShortened={handleLinksUpdated}
         />
-
-        {!isLoggedIn && <ShortenButton />}
 
         {isLoggedIn && (
           <>
